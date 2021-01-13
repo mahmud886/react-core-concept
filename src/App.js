@@ -1,3 +1,4 @@
+import React, { useState, useEffect } from 'react';
 import logo from './logo.svg';
 import './App.css';
 
@@ -20,6 +21,10 @@ function App() {
 	return (
 		<div className="App">
 			<header className="App-header">
+				<Counter />
+
+				<DynamicUser />
+
 				<h1>This is friends List</h1>
 				<ul>
 					{friendsArray.map((friends) => (
@@ -37,6 +42,43 @@ function App() {
 					<Product products={pd} />
 				))}
 			</header>
+		</div>
+	);
+}
+
+function DynamicUser() {
+	const [users, setUsers] = useState([]);
+
+	useEffect(() => {
+		fetch('https://jsonplaceholder.typicode.com/users')
+			.then((res) => res.json())
+			.then((data) => setUsers(data));
+	}, []);
+
+	return (
+		<div>
+			<h1>Dyanamic User: {users.length}</h1>
+			<ul>
+				{users.map((users) => (
+					<li>{users.name}</li>
+				))}
+				{users.map((users) => (
+					<li>{users.phone}</li>
+				))}
+			</ul>
+		</div>
+	);
+}
+
+function Counter() {
+	const [count, setCount] = useState(10);
+	const handleIncrease = () => setCount(count + 1);
+	const handleDecrease = () => setCount(count - 1);
+	return (
+		<div>
+			<h1>Count: {count}</h1>
+			<button onClick={handleIncrease}>+</button>
+			<button onClick={handleDecrease}>-</button>
 		</div>
 	);
 }
